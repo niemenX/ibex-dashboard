@@ -18,8 +18,8 @@ export interface IGenericProps {
 
 export interface IGenericState { [key: string]: any; }
 
-export abstract class GenericComponent<T1 extends IGenericProps, T2 extends IGenericState> 
-                      extends React.Component<T1, T2> {
+export abstract class GenericComponent<T1 extends IGenericProps, T2 extends IGenericState>
+  extends React.Component<T1, T2> {
 
   private id: string = null;
 
@@ -100,7 +100,7 @@ export abstract class GenericComponent<T1 extends IGenericProps, T2 extends IGen
     var result = DataSourceConnector.extrapolateDependencies(this.props.dependencies);
     var updatedState: IGenericState = {};
     Object.keys(result.dependencies).forEach(key => {
-      updatedState[key] = result.dependencies[key];
+      updatedState[key] = result.dependencies[key]; // state[key];
     });
 
     this.setState(updatedState);

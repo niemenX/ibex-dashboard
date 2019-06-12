@@ -186,11 +186,11 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
             hideTitle={true} 
             className={hideBorders ? 'hide-borders' : ''} 
             contentStyle={styles.autoscroll}>
-        <DataTable plain={!checkboxes} data={checkboxes} className={className} baseId="pagination" responsive={false}>
+        <DataTable plain={!checkboxes} data={checkboxes} className={className} baseId="pagination" responsive={true}>
           <TableHeader>
             <TableRow autoAdjust={false}>
               {cols.map((col, i) => (
-                <TableColumn key={i} style={this.styleColumnWidth(col.width)}>{
+                <TableColumn key={i}>{
                   col.secondaryHeader !== undefined ? (
                     <div className="table">
                       <span className="primary">{col.header}</span>

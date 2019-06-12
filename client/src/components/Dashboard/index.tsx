@@ -138,7 +138,7 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
 
   componentWillUnmount() {
     this.onLayoutChange = this.onLayoutChangeInactive;
-    VisibilityStore.unlisten(this.onVisibilityStoreChange);    
+    VisibilityStore.unlisten(this.onVisibilityStoreChange);
   }
 
   onVisibilityStoreChange(state: any) {
@@ -240,7 +240,7 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
   onConfigDashboardCancel() {
     this.setState({ askConfig: false });
   }
-  
+
   onUpdateLayout() {
     this.setState({ editMode: !this.state.editMode });
     this.setState({ editMode: !this.state.editMode });
@@ -263,15 +263,21 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
     downloadBlob('return ' + stringDashboard, 'application/json', dashboardName + '.private.js');
   }
 
+  onItemRemove = (item) => {
+    let { dashboard } = this.props;
+    _.remove(dashboard.elements, { id: item });
+    ConfigurationsActions.saveConfiguration(dashboard);
+  }
+
   render() {
     const { dashboard } = this.props;
 
-    const { 
-      currentBreakpoint, 
-      grid, 
-      editMode, 
+    const {
+      currentBreakpoint,
+      grid,
+      editMode,
       askDelete,
-      askConfig ,
+      askConfig,
       askSaveAsTemplate,
       newTemplateName,
       newTemplateDescription
@@ -284,7 +290,7 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
     }
 
     // Creating visual elements
-    var elements = ElementConnector.loadElementsFromDashboard(dashboard, layout);
+    var elements = ElementConnector.loadElementsFromDashboard(dashboard, layout, this.onItemRemove);
 
     // Creating filter elements
     var { filters, /*additionalFilters*/ } = ElementConnector.loadFiltersFromDashboard(dashboard);
@@ -296,12 +302,12 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
     let toolbarActions = [];
 
     // Edit toggle button
-    const editLabel = editMode ? 'Save layout' : 'Edit layout' ;
+    const editLabel = editMode ? 'Save layout' : 'Edit layout';
 
     toolbarActions.push(
       (
         <span>
-          <AutoRefreshSelector/>
+          <AutoRefreshSelector />
         </span>
       ),
       (
@@ -316,42 +322,42 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
       ),
       (
         <span>
-          <MenuButton 
+          <MenuButton
             id="vert-menu"
             icon
             buttonChildren="more_vert"
             tooltipLabel="More">
-            <ListItem 
-              key="info" 
-              primaryText="Info" 
+            <ListItem
+              key="info"
+              primaryText="Info"
               leftIcon={<FontIcon key="info">info</FontIcon>}
-              onClick={this.onOpenInfo.bind(this, dashboard.html)} 
+              onClick={this.onOpenInfo.bind(this, dashboard.html)}
             />
             <Divider />
-            <ListItem 
-              key="edit" 
-              primaryText="Edit code" 
+            <ListItem
+              key="edit"
+              primaryText="Edit code"
               leftIcon={<FontIcon key="code">code</FontIcon>}
-              onClick={() => EditorActions.loadDashboard(dashboard.id)} 
+              onClick={() => EditorActions.loadDashboard(dashboard.id)}
             />
-            <ListItem 
-              key="down" 
-              primaryText="Download dashboard" 
+            <ListItem
+              key="down"
+              primaryText="Download dashboard"
               leftIcon={<FontIcon key="file_download">file_download</FontIcon>}
-              onClick={this.onDownloadDashboard} 
+              onClick={this.onDownloadDashboard}
             />
-            <ListItem 
-              key="temp" 
-              primaryText="Save as template" 
+            <ListItem
+              key="temp"
+              primaryText="Save as template"
               leftIcon={<FontIcon key="cloud_download">cloud_download</FontIcon>}
-              onClick={this.onSaveAsTemplate} 
+              onClick={this.onSaveAsTemplate}
             />
             <Divider />
-            <ListItem 
-              key="del" 
-              primaryText="Delete dashboard" 
+            <ListItem
+              key="del"
+              primaryText="Delete dashboard"
               leftIcon={<FontIcon key="delete">delete</FontIcon>}
-              onClick={this.onDeleteDashboard} 
+              onClick={this.onDeleteDashboard}
             />
           </MenuButton>
         </span>
@@ -359,7 +365,7 @@ export default class Dashboard extends React.Component<IDashboardProps, IDashboa
     );
 
     return (
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         <Toolbar width={100} actions={toolbarActions}>
           {filters}
           <Spinner />

@@ -6,7 +6,7 @@ import { IDataSourcePlugin } from '../../../data-sources/plugins/DataSourcePlugi
 enum Interval {
   Hours = 0,
   Days = 1,
-  Weeks= 2,
+  Weeks = 2,
   Months = 3
 }
 
@@ -16,24 +16,24 @@ interface IQueryTimespan {
 }
 
 const timespanRegex = /^(\d+) (hour|day|week|month)s?$/;
-function parseTimespan(timespanText: string) : IQueryTimespan {
+function parseTimespan(timespanText: string): IQueryTimespan {
   var match = timespanRegex.exec(timespanText);
   if (!match) {
     // Backwards compatibility with existing functionality
-    return { queryTimespan: "P90D", granularity: "1d" };
+    return { queryTimespan: 'P90D', granularity: '1d' };
   }
 
   switch (match[2]) {
-    case "hour":
-      return { queryTimespan: `PT${match[1]}H`, granularity: "5m" };
-    case "day":
-      return { queryTimespan: `P${match[1]}D`, granularity: "30m" };
-    case "week":
-      return { queryTimespan: `P${parseInt(match[1]) * 7}D`, granularity: "1d" };
-    case "month":
-      return { queryTimespan: `P${parseInt(match[1]) * 30}D`, granularity: "1d" };
+    case 'hour':
+      return { queryTimespan: `PT${match[1]}H`, granularity: '5m' };
+    case 'day':
+      return { queryTimespan: `P${match[1]}D`, granularity: '30m' };
+    case 'week':
+      return { queryTimespan: `P${parseInt(match[1], 10) * 7}D`, granularity: '1d' };
+    case 'month':
+      return { queryTimespan: `P${parseInt(match[1], 10) * 30}D`, granularity: '1d' };
     default:
-      return { queryTimespan: "P90D", granularity: "1d" };
+      return { queryTimespan: 'P90D', granularity: '1d' };
   }
 }
 
@@ -42,19 +42,19 @@ function parseTimespan(timespanText: string) : IQueryTimespan {
  * 
  * Receives a list of filtering values (on the data source params variable):
  * params: {
- *  values: ["24 hours","1 week","1 month","3 months"]
- *  selectedValue: "1 month",
- *  queryTimespan: "PT24H",
- *  granularity: "5m"
+ *  values: ['24 hours','1 week','1 month','3 months']
+ *  selectedValue: '1 month',
+ *  queryTimespan: 'PT24H',
+ *  granularity: '5m'
  * }
  * 
  * And outputs the result in a consumable filter way:
  * result: {
- *  "prefix-values": ["24 hours","1 week","1 month","3 months"]
- *  "prefix-selected": "1 month",
+ *  'prefix-values': ['24 hours','1 week','1 month','3 months']
+ *  'prefix-selected': '1 month',
  * }
  * 
- * "prefix-selected" will be able to hold the selected values from the filter component
+ * 'prefix-selected' will be able to hold the selected values from the filter component
  * 
  * @param format 'timespan' | { 
  *  type: 'timespan',
@@ -69,10 +69,10 @@ function parseTimespan(timespanText: string) : IQueryTimespan {
  * @param prevState The previous state to compare for changing filters
  */
 export function timespan(
-  format: string | IDataFormat, 
-  state: any, 
-  dependencies: IDictionary, 
-  plugin: IDataSourcePlugin, 
+  format: string | IDataFormat,
+  state: any,
+  dependencies: IDictionary,
+  plugin: IDataSourcePlugin,
   prevState: any) {
 
   if (!state) { return null; }

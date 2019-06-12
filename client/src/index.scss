@@ -1,11 +1,21 @@
-@import '../node_modules/react-md/src/scss/react-md';
-@import '../node_modules/leaflet/dist/leaflet.css';
+@import "../node_modules/react-md/src/scss/react-md";
+@import "../node_modules/leaflet/dist/leaflet.css";
 
 $md-primary-color: $md-cyan-500;
 $md-secondary-color: $md-pink-a-200;
 $md-font-regular: 300;
 
 @include react-md-everything;
+
+.remove {
+  display: none;
+}
+.react-draggable .remove {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 body {
   margin: 0;
@@ -14,12 +24,13 @@ body {
 }
 
 // Making sure titles are less bold
-h2, .md-subheading-2 {
+h2,
+.md-subheading-2 {
   font-weight: $md-font-regular;
 }
 
 .md-dialog.md-transition-in {
-    transform: translate3d(0px, 0px, 0px) scale(1);
+  transform: translate3d(0px, 0px, 0px) scale(1);
 }
 
 /**
@@ -29,7 +40,7 @@ h2, .md-subheading-2 {
     float: left;
     padding-right: 10px;
     padding-top: 10px;
-    
+
     img {
       max-height: 40px;
       max-width: 40px;
@@ -55,7 +66,6 @@ h2, .md-subheading-2 {
   width: 100%;
 }
 
-
 /*=============*/
 /* Card Styles */
 /*=============*/
@@ -65,7 +75,7 @@ h2, .md-subheading-2 {
   height: 100%;
 
   &.hide-borders {
-    box-shadow: none; 
+    box-shadow: none;
   }
 }
 
@@ -92,7 +102,7 @@ h2, .md-subheading-2 {
       margin-top: 8px;
       margin-right: 8px;
     }
-    
+
     .dash-icon {
       margin-top: 5px;
     }
@@ -114,11 +124,11 @@ h2, .md-subheading-2 {
 
 div.templates > section > div.preview {
   opacity: 0.5;
-  transition: opacity .5s ease-out;
+  transition: opacity 0.5s ease-out;
 }
 
 div.templates:hover > section > div.preview {
-  opacity: 1.0;
+  opacity: 1;
 }
 
 .md-card {
@@ -195,8 +205,6 @@ div.templates:hover > section > div.preview {
 /*=============*/
 
 .md-data-table {
-
-
   &.table-compact {
     .md-table-column--header {
       height: 47px;
@@ -234,10 +242,12 @@ div.templates:hover > section > div.preview {
     }
   }
 
-  .MBFEvent-BotMessage, tr.Customer { 
+  .MBFEvent-BotMessage,
+  tr.Customer {
     background-color: $md-blue-50;
 
-    td.message, td.text {
+    td.message,
+    td.text {
       text-align: right;
     }
   }
@@ -245,30 +255,30 @@ div.templates:hover > section > div.preview {
   tr.intent td.message .indicator {
     //background-color: $md-red-50;
 
-    display:inline-block;
-    width: .5em;
-    height: .8em;
-    position:relative;
+    display: inline-block;
+    width: 0.5em;
+    height: 0.8em;
+    position: relative;
 
     &:before,
     &:after {
-      display:block;
-      content:"";
-      width:10px;
-      height:0em;
-      border-style:solid;
-      position:absolute;
+      display: block;
+      content: "";
+      width: 10px;
+      height: 0em;
+      border-style: solid;
+      position: absolute;
     }
     &:before {
       top: 2px;
-      right:0;
-      border-width:.4em 0 .4em .4em;
-      border-color:transparent transparent transparent $md-secondary-color;    
+      right: 0;
+      border-width: 0.4em 0 0.4em 0.4em;
+      border-color: transparent transparent transparent $md-secondary-color;
     }
     &:after {
-      left:0;
-      border-width:.4em 0 .4em .4em;
-      border-color:transparent transparent transparent transparent;    
+      left: 0;
+      border-width: 0.4em 0 0.4em 0.4em;
+      border-color: transparent transparent transparent transparent;
     }
   }
 }
@@ -293,10 +303,11 @@ div.templates:hover > section > div.preview {
 ul.aligned {
   margin: 16px;
   padding: 0;
-  list-style-position: 'outside';
+  list-style-position: "outside";
 }
 
-header .md-btn, section .md-btn {
+header .md-btn,
+section .md-btn {
   z-index: 1;
 }
 
@@ -307,7 +318,7 @@ header .md-btn, section .md-btn {
 .md-card {
   .md-text--secondary {
     font-weight: 300;
-  } 
+  }
 
   .md-media {
     padding: 46px 0 0 0;
@@ -318,7 +329,6 @@ header .md-btn, section .md-btn {
     top: -5px;
   }
 }
-
 
 /*======*/
 /* Map  */
@@ -334,26 +344,24 @@ header .md-btn, section .md-btn {
   }
 }
 
-
 /*================*/
 /* Dialogs with toolbar */
 /*================*/
 
-.dialog-toolbar-no-padding .md-dialog-content--padded{
+.dialog-toolbar-no-padding .md-dialog-content--padded {
   padding: 0px;
 }
-.dialog-toolbar-no-padding footer{
+.dialog-toolbar-no-padding footer {
   position: absolute;
-  bottom:0px;
-  right:0px;
-  width:100%;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
 }
 
-
-.vertical-menu .active-item{
+.vertical-menu .active-item {
   background: $md-cyan-500;
 }
-.vertical-menu .md-text--theme-primary{
+.vertical-menu .md-text--theme-primary {
   color: $md-cyan-50;
 }
 
@@ -375,8 +383,12 @@ html.md-no-scroll {
 /* Code editor    */
 /*================*/
 
-.ace_editor > *, .ace_layer > *, .ace_content, .ace_line > *, .ace_text-input {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+.ace_editor > *,
+.ace_layer > *,
+.ace_content,
+.ace_line > *,
+.ace_text-input {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
   font-size: 12px;
   font-weight: normal;
 }

@@ -6,10 +6,11 @@ import * as formats from '../utils/data-formats';
 import { DataSourceConnector } from '../data-sources/DataSourceConnector';
 import VisibilityActions from '../actions/VisibilityActions';
 import VisibilityStore from '../stores/VisibilityStore';
+import Button from 'react-md/lib/Buttons';
 
 export default class ElementConnector {
   static loadLayoutFromDashboard(elementsContainer: IElementsContainer, dashboard: IDashboardConfig): ILayouts {
-    
+
     var layouts = {};
     _.each(dashboard.config.layout.cols, (totalColumns, key) => {
 
@@ -53,42 +54,42 @@ export default class ElementConnector {
   }
 
   static createGenericFilter(
-    ReactElement: any, 
-    idx?: number, 
+    ReactElement: any,
+    idx?: number,
     icon?: string,
     source?: string | IStringDictionary,
-    dependencies?: IStringDictionary, 
-    actions?: IDictionary, 
-    title?: string, 
+    dependencies?: IStringDictionary,
+    actions?: IDictionary,
+    title?: string,
     subtitle?: string): JSX.Element {
 
     return ElementConnector.createGenericElement(
       ReactElement,
       '__filter',
       idx || 0,
-      source, 
+      source,
       dependencies,
       actions,
       null,
-      title, 
+      title,
       subtitle,
-      null, 
+      null,
       null,
       icon
     );
   }
 
   static createGenericElement(
-    ReactElement: any, 
-    id: string, 
-    idx?: number, 
+    ReactElement: any,
+    id: string,
+    idx?: number,
     source?: string | IStringDictionary,
-    dependencies?: IStringDictionary, 
-    actions?: IDictionary, 
-    props?: IDictionary, 
-    title?: string, 
-    subtitle?: string, 
-    layout?: ILayout, 
+    dependencies?: IStringDictionary,
+    actions?: IDictionary,
+    props?: IDictionary,
+    title?: string,
+    subtitle?: string,
+    layout?: ILayout,
     theme?: string[],
     icon?: string): JSX.Element {
 
@@ -98,7 +99,7 @@ export default class ElementConnector {
     }
 
     return (
-      <ReactElement 
+      <ReactElement
         key={idx}
         id={id + '@' + (idx || 0)}
         dependencies={dependencies}
@@ -113,7 +114,8 @@ export default class ElementConnector {
     );
   }
 
-  static loadElementsFromDashboard(dashboard: IElementsContainer, layout: ILayout[]): React.Component<any, any>[] {
+  static loadElementsFromDashboard(dashboard: IElementsContainer, layout: ILayout[], onRemove: any = null)
+  : React.Component<any, any>[] {
     var elements = [];
     var elementId = {};
     var visibilityFlags = (VisibilityStore.getState() || {}).flags || {};
@@ -123,7 +125,7 @@ export default class ElementConnector {
       var { id, dependencies, source, actions, props, title, subtitle, size, theme, location } = element;
       var layoutProps = _.find(layout, { 'i': id });
 
-      if (dependencies && dependencies.visible && !visibilityFlags[dependencies.visible]) { 
+      if (dependencies && dependencies.visible && !visibilityFlags[dependencies.visible]) {
         if (typeof visibilityFlags[dependencies.visible] === 'undefined') {
           let flagDependencies = DataSourceConnector.extrapolateDependencies({ value: dependencies.visible });
           let flag = {};
@@ -131,7 +133,7 @@ export default class ElementConnector {
 
           (VisibilityActions.setFlags as any).defer(flag);
         } else {
-          return; 
+          return;
         }
       }
 
@@ -142,19 +144,20 @@ export default class ElementConnector {
         <div key={id}>
           {
             ElementConnector.createGenericElement(
-              ReactElement, 
-              id, 
-              idx, 
-              source, 
-              dependencies, 
-              actions, 
-              props, 
-              title, 
-              subtitle, 
-              layoutProps, 
+              ReactElement,
+              id,
+              idx,
+              source,
+              dependencies,
+              actions,
+              props,
+              title,
+              subtitle,
+              layoutProps,
               theme
             )
           }
+          <Button className="remove" onClick={() => onRemove(id)} icon primary>close</Button>
         </div>
       );
     });
