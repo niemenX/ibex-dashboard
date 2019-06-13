@@ -27,4 +27,3 @@ client/**/*.css
 *.orig
 
 # private files
-*.private.*

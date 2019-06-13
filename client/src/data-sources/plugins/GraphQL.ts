@@ -7,7 +7,7 @@ import { DataSourceConnector } from '../DataSourceConnector';
 let connectionType = new GraphQLConnection();
 
 interface IGraphQLParams {
-  query: string;
+  query: any;
   variables: Object;
 }
 
@@ -36,7 +36,10 @@ export default class GraphQL extends DataSourcePlugin<IGraphQLParams> {
     }
 
     const params = this.getParams() || ({} as IGraphQLParams);
-    const query = params.query || '';
+    let query = params.query || '';
+    if (typeof params.query === 'function') {
+      query = params.query(dependencies);
+    }
     const variables = dependencies['variables'] || params.variables;
 
     return dispatch => {

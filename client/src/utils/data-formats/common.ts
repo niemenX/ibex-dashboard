@@ -21,3 +21,8 @@ export function formatWarn(text: string, format: string, plugin: IDataSourcePlug
 export function getPrefix(format: string | IDataFormat) {
   return (format && typeof format !== 'string' && format.args && format.args.prefix) || '';
 }
+
+export function resolve(path: string, obj: any = self, separator: string = '.') {
+  var properties = Array.isArray(path) ? path : path.split(separator);
+  return properties.reduce((prev, curr) => prev && prev[curr], obj);
+}
