@@ -42,6 +42,8 @@ export default class GraphQL extends DataSourcePlugin<IGraphQLParams> {
     }
     const variables = dependencies['variables'] || params.variables;
 
+    if (!query) return dispatch => { return dispatch({}) };
+
     return dispatch => {
       request('/graphql/query', {
         method: 'POST',
@@ -51,7 +53,7 @@ export default class GraphQL extends DataSourcePlugin<IGraphQLParams> {
           query: query,
           variables: variables
         }
-      },      (err, json) => {
+      }, (err, json) => {
         const error = err || (json['errors'] && json['errors'][0]);
         if (error || json['errors']) {
           return this.failure(error);
@@ -66,7 +68,7 @@ export default class GraphQL extends DataSourcePlugin<IGraphQLParams> {
     if (Array.isArray(selectedValues)) {
       return Object.assign(dependencies, { 'selectedValues': selectedValues });
     } else {
-      return Object.assign(dependencies, { ... selectedValues });
+      return Object.assign(dependencies, { ...selectedValues });
     }
   }
 

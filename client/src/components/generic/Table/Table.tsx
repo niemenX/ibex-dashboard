@@ -65,8 +65,8 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
   constructor(props: ITableProps) {
     super(props);
 
-    this.state.rowsPerPageItems = defaultPagination.find(n => n === this.state.rowsPerPage) ? defaultPagination 
-      : [...defaultPagination, this.state.rowsPerPage].sort((a, b) => a - b) ;
+    this.state.rowsPerPageItems = defaultPagination.find(n => n === this.state.rowsPerPage) ? defaultPagination
+      : [...defaultPagination, this.state.rowsPerPage].sort((a, b) => a - b);
 
     this.onButtonClick = this.onButtonClick.bind(this);
     this.onRowClick = this.onRowClick.bind(this);
@@ -95,7 +95,7 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
 
   handlePagination(rowIndex: number, rowsPerPage: number, currentPage: number) {
     const { values } = this.state;
-    const newPage = currentPage < Math.floor(values.length / rowsPerPage) ? currentPage : 1 ;
+    const newPage = currentPage < Math.floor(values.length / rowsPerPage) ? currentPage : 1;
     this.setState({ rowIndex: rowIndex, rowsPerPage: rowsPerPage, currentPage: newPage });
   }
 
@@ -103,7 +103,7 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
     const { props, id, title } = this.props;
     const { checkboxes, cols, rowClassNameField, hideBorders, compact } = props;
     const { values, rowIndex, rowsPerPage, currentPage, rowsPerPageItems } = this.state;
-    
+
     if (!values) {
       return <CircularProgress key="loading" id="spinner" />;
     }
@@ -117,15 +117,15 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
 
         case 'icon':
           return !col.tooltip ? <FontIcon style={style}>{col.value || value[col.field]}</FontIcon> : (
-              <Button 
-                icon 
-                tooltipLabel={value[col.tooltip] || col.tooltip} 
-                tooltipPosition={col.tooltipPosition || 'top'}
-                className={this.fixClassName(value[col.field]) + ' tooltip'}
-              >
-                {col.value || value[col.field]}
-              </Button>
-            );
+            <Button
+              icon
+              tooltipLabel={value[col.tooltip] || col.tooltip}
+              tooltipPosition={col.tooltipPosition || 'top'}
+              className={this.fixClassName(value[col.field]) + ' tooltip'}
+            >
+              {col.value || value[col.field]}
+            </Button>
+          );
 
         case 'button':
           return (
@@ -181,41 +181,43 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
     className += compact ? 'table-compact' : '';
 
     return (
-      <Card id={id} 
-            title={title}
-            hideTitle={true} 
-            className={hideBorders ? 'hide-borders' : ''} 
-            contentStyle={styles.autoscroll}>
-        <DataTable plain={!checkboxes} data={checkboxes} className={className} baseId="pagination" responsive={true}>
-          <TableHeader>
-            <TableRow autoAdjust={false}>
-              {cols.map((col, i) => (
-                <TableColumn key={i}>{
-                  col.secondaryHeader !== undefined ? (
-                    <div className="table">
-                      <span className="primary">{col.header}</span>
-                      <span className="secondary">{col.secondaryHeader}</span>
-                    </div>
-                  ) : col.header
-                }</TableColumn>
-              ))
-              }
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows}
-          </TableBody>
-          {totalRows > rowsPerPage ? (
-            <TablePagination
-              onPagination={this.handlePagination}
-              rows={totalRows}
-              rowsPerPage={rowsPerPage}
-              rowsPerPageItems={rowsPerPageItems}
-              page={currentPage}
-            />
-          ) : null
-          }
-        </DataTable>
+      <Card id={id}
+        title={title}
+        hideTitle={false}
+        className={hideBorders ? 'hide-borders' : ''}
+        contentStyle={styles.autoscroll}>
+        <div style={{ width: "95%" }}>
+          <DataTable plain={!checkboxes} data={checkboxes} className={className} baseId="pagination" responsive={true}>
+            <TableHeader>
+              <TableRow autoAdjust={false}>
+                {cols.map((col, i) => (
+                  <TableColumn key={i}>{
+                    col.secondaryHeader !== undefined ? (
+                      <div className="table">
+                        <span className="primary">{col.header}</span>
+                        <span className="secondary">{col.secondaryHeader}</span>
+                      </div>
+                    ) : col.header
+                  }</TableColumn>
+                ))
+                }
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows}
+            </TableBody>
+            {totalRows > rowsPerPage ? (
+              <TablePagination
+                onPagination={this.handlePagination}
+                rows={totalRows}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageItems={rowsPerPageItems}
+                page={currentPage}
+              />
+            ) : null
+            }
+          </DataTable>
+        </div>
       </Card>
     );
   }
@@ -227,7 +229,7 @@ export default class Table extends GenericComponent<ITableProps, ITableState> {
       } as React.CSSProperties;
     }
     return {
-      width: typeof(width) === 'string' ? width : width + 'px'
+      width: typeof (width) === 'string' ? width : width + 'px'
     } as React.CSSProperties;
   }
 }

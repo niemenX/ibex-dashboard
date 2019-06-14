@@ -1,11 +1,16 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import FontIcon from 'react-md/lib/FontIcons';
-import Button from 'react-md/lib/Buttons/Button';
-import CircularProgress from 'react-md/lib/Progress/CircularProgress';
 import { GenericComponent, IGenericProps, IGenericState } from '../GenericComponent';
 import Card from '../../Card';
+import {
+  FontIcon,
+  List,
+  ListItem,
+  Button,
+  Divider,
+  CircularProgress
+} from 'react-md';
 
 const styles = {
   autoscroll: {
@@ -59,17 +64,16 @@ export default class Detail extends GenericComponent<IDetailProps, IDetailState>
         const content = this.renderData(data);
 
         return (
-          <li key={key}>
-            <h6>{header}</h6>
-            <div className="content">{content}</div>
-          </li>
+          <ListItem key={key} primaryText={header} secondaryText={content}>
+          </ListItem>
         );
       });
 
       return (
-        <ul key={ri} className="details">
+        <List  key={ri} className="details">
           {items}
-        </ul>
+          <Divider />
+        </List >
       );
     });
 

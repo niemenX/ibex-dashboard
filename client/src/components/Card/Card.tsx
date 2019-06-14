@@ -72,9 +72,9 @@ export default class Card extends React.PureComponent<ICardProps, ICardState> {
         </TooltipFontIcon>
       );
     }
-    if (hover) {
+    //if (hover) {
       elements.push( this.renderWidgets() );
-    }
+    //}
 
     // NB: Fix for Card scroll content when no title
     let cardTitleStyle = titleStyle || {};
