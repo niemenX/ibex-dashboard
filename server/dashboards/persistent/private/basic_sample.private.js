@@ -147,8 +147,7 @@ return {
       type: "GraphQL",
       dependencies: { timespan: "timespan" },
       params: {
-        query: () => `
-        {
+        query: () => `{
           medicalDocuments(pageSize: 100, afterId: 0, direction: 0, sortBy: "") {
             values {
               id
@@ -156,8 +155,7 @@ return {
               lastName
             }
           }
-        }
-              `
+        }`
       },
       format: { type: "graphql", values: "medicalDocuments.values" }
     },

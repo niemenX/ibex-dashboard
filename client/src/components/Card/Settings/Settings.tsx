@@ -63,6 +63,13 @@ export default class Edit extends React.PureComponent<ISettingsProps, ISettingsS
     this.setState({ visible, elementId, title, selectedIndex, exportData });
   }
 
+  onQueryChange = (query) => {
+    const { exportData, selectedIndex } = this.state;
+    let newData = Object.assign({}, exportData);
+    newData[selectedIndex].query = query;
+    this.setState({ exportData });
+  }
+
   openDialog = (title: string, elementId: string) => {
     SettingsActions.openDialog(title, elementId);
   }
@@ -72,7 +79,7 @@ export default class Edit extends React.PureComponent<ISettingsProps, ISettingsS
   }
 
   copyData() {
-    const { exportData, selectedIndex} = this.state;
+    const { exportData, selectedIndex } = this.state;
     if (!exportData) {
       return;
     }
@@ -82,13 +89,19 @@ export default class Edit extends React.PureComponent<ISettingsProps, ISettingsS
   }
 
   copyQuery() {
-    const { exportData, selectedIndex} = this.state;
+    const { exportData, selectedIndex } = this.state;
     if (!exportData) {
       return;
     }
     const selected = exportData[selectedIndex];
     const text = selected.query;
     this.copyToClipboard(text);
+  }
+
+  saveQuery() {
+    const { exportData, selectedIndex } = this.state;
+    const all = this.state;
+
   }
 
   componentWillUpdate(nextProps: any, nextState: any) {
@@ -180,12 +193,19 @@ export default class Edit extends React.PureComponent<ISettingsProps, ISettingsS
           <Button icon tooltipLabel="Copy" onClick={this.copyQuery} tabIndex={-1}>
             content_copy
           </Button>
+
+        ),
+        (
+          <Button icon tooltipLabel="Save" onClick={this.saveQuery} tabIndex={-1}>
+            save
+          </Button>
+
         )
       ];
     }
 
     let id = 'Element id error';
-    if ( elementId) {
+    if (elementId) {
       id = elementId.split('@')[0] || 'Element index error';
     }
 
@@ -199,43 +219,44 @@ export default class Edit extends React.PureComponent<ISettingsProps, ISettingsS
         </div>
       </div>
     ) : (
-      <div className="md-toolbar-relative md-grid md-grid--no-spacing">
-        <div className="md-cell--6">
-          <Toolbar title="Data" actions={dataActions} themed style={{ width: '100%' }} />
-          <AceEditor className="md-cell--12"
-            name="ace"
-            mode={mode}
-            theme="github"
-            value={json}
-            readOnly={true}
-            showGutter={true}
-            showPrintMargin={false}
-            highlightActiveLine={true}
-            tabSize={2}
-            width="100%"
-            height={aceHeight}
-            editorProps={editorProps}
-          />
+        <div className="md-toolbar-relative md-grid md-grid--no-spacing">
+          <div className="md-cell--6">
+            <Toolbar title="Data" actions={dataActions} themed style={{ width: '100%' }} />
+            <AceEditor className="md-cell--12"
+              name="ace"
+              mode={mode}
+              theme="github"
+              value={json}
+              readOnly={true}
+              showGutter={true}
+              showPrintMargin={false}
+              highlightActiveLine={true}
+              tabSize={2}
+              width="100%"
+              height={aceHeight}
+              editorProps={editorProps}
+            />
+          </div>
+          <div className="md-cell--6">
+            <Toolbar title="Query" actions={queryActions} themed style={{ width: '100%' }} />
+            <AceEditor className="md-cell--12"
+              name="ace"
+              mode="text"
+              theme="github"
+              value={query}
+              readOnly={false}
+              showGutter={true}
+              showPrintMargin={false}
+              highlightActiveLine={true}
+              tabSize={2}
+              width="100%"
+              height={aceHeight}
+              editorProps={editorProps}
+              onChange={this.onQueryChange}
+            />
+          </div>
         </div>
-        <div className="md-cell--6">
-          <Toolbar title="Query" actions={queryActions} themed style={{ width: '100%' }} />
-          <AceEditor className="md-cell--12"
-            name="ace"
-            mode="text"
-            theme="github"
-            value={query}
-            readOnly={true}
-            showGutter={true}
-            showPrintMargin={false}
-            highlightActiveLine={true}
-            tabSize={2}
-            width="100%"
-            height={aceHeight}
-            editorProps={editorProps}
-          />
-        </div>
-      </div>
-    );
+      );
 
     return (
       <Dialog
